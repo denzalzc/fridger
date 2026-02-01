@@ -1,0 +1,76 @@
+# Python кэш
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Распространяемые пакеты
+build/
+dist/
+*.egg-info/
+
+# Чувствительные данные
+src/fridger/tgbot/apikey.txt
+*.key
+*.pem
+*.cert
+*.secret
+*.token
+*.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Базы данных
+*.db
+*.sqlite
+*.sqlite3
+fridge.db
+
+# Системные файлы
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Временные файлы
+temp/
+tmp/
+*.tmp
+*.temp
+
+# Логи
+*.log
+logs/
+
+# Тестовые покрытия
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Jupyter
+.ipynb_checkpoints

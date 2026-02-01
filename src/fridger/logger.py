@@ -4,12 +4,16 @@ from datetime import datetime
 current_dir = os.path.dirname(os.path.abspath(__file__))
 LOGS_DIR = os.path.join(current_dir, '..', '..', 'logs')
 
+if not os.path.exists(LOGS_DIR):
+    os.mkdir(LOGS_DIR)
+
 
 class FridgeLogger:
     def __init__(self, filename):
         self.filename = filename
 
-        if not(f"{LOGS_DIR}/{self.filename}" in os.listdir(LOGS_DIR)):
+        log_file_path = os.path.join(LOGS_DIR, self.filename)
+        if not os.path.exists(log_file_path):
             with open(f"{LOGS_DIR}/{self.filename}", 'w') as file:
                 file.close()
 

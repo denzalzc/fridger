@@ -1,0 +1,11 @@
+[Unit]
+Description=Telegram Bot for polling messages from users
+After=network.target
+
+[Service]
+User=root
+WorkingDirectory=%workdir%
+ExecStart=%pythonbin% %execfile%
+
+[Install]
+WantedBy=multi-user.target

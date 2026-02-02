@@ -1,9 +1,11 @@
 import os
 import subprocess
+import sys
 
 subprocess.run('python3 -m venv venv', shell=True)
-subprocess.run('source venv/bin/activete.fish', shell=True)
-subprocess.run('pip install -e .')
+subprocess.run([sys.executable, '-m', 'venv', 'venv'])
+venv_pip = os.path.join('venv', 'bin', 'pip')
+subprocess.run([venv_pip, 'install', '-e', '.'])
 
 '''
 Auto deploy componetns on linux machine

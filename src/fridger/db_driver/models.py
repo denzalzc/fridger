@@ -45,7 +45,7 @@ class Product(Base):
     best_before_date = Column(DateTime, default=now())
 
     def __repr__(self):
-        return f"<Product(id={self.id}, bestbefore={self.amount})>"
+        return f"<Product(id={self.id}, amount={self.amount}, bbd={self.best_before_date}>"
     
     
 

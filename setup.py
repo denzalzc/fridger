@@ -10,7 +10,8 @@ setup(
         "sqlalchemy",
         "flask",
         "telebot",
-        "pytz"
+        "pytz",
+        "schedule"
     ],
     include_package_data=True,
 )

@@ -46,11 +46,12 @@ cron = gen_service(
     'fridge_cron.service',
     'src/fridger/cron_product',
     'venv/bin/python',
-    'src/fridger/cron/main.py'
+    'src/fridger/cron_product/main.py'
 )
 with open('/etc/systemd/system/fridge_cron.service', 'w') as file:
     file.write(cron)
 
+subprocess.run(['systemctl', 'daemon-reload'])
 
 subprocess.run(['cp', '/home/apikey.txt', f'{os.path.abspath('src/fridger/tgbot')}/apikey.txt'])
 
@@ -62,3 +63,5 @@ subprocess.run(['systemctl', 'enable', 'fridge_webviewer'])
 
 subprocess.run(['systemctl', 'start', 'fridge_cron'])
 subprocess.run(['systemctl', 'enable', 'fridge_cron'])
+
+subprocess.run(['systemctl', 'daemon-reload'])

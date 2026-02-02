@@ -1,6 +1,9 @@
 import os
 import subprocess
 
+'''
+Auto deploy componetns on linux machine
+'''
 
 def gen_service(service_name, work, bin, exec):
     with open(f'services/{service_name}', 'r') as serv_file:
@@ -17,32 +20,31 @@ def gen_service(service_name, work, bin, exec):
 
         return text
 
-
 tg_bot = gen_service(
     'fridge_tgbot.service',
     'src/fridger/tgbot',
     'venv/bin/python',
     'src/fridger/tgbot/main.py'
 )
+with open('/etc/systemd/system/fridge_tgbot.service', 'w') as file:
+    file.write(tg_bot)
 web_viever = gen_service(
     'fridge_webviewer.service',
     'src/fridger/webviewer',
     'venv/bin/python',
     'src/fridger/webviewer/main.py'
 )
+with open('/etc/systemd/system/fridge_webviewer.service', 'w') as file:
+    file.write(web_viever)
 cron = gen_service(
     'fridge_cron.service',
     'src/fridger/cron',
     'venv/bin/python',
     'src/fridger/cron/main.py'
 )
-
-with open('/etc/systemd/system/fridge_tgbot.service', 'w') as file:
-    file.write(tg_bot)
-with open('/etc/systemd/system/fridge_webviewer.service', 'w') as file:
-    file.write(web_viever)
 with open('/etc/systemd/system/fridge_cron.service', 'w') as file:
     file.write(cron)
+
 
 subprocess.run(['cp', '/home/apikey.txt', f'{os.path.abspath('src/fridger/tgbot')}/apikey.txt'])
 

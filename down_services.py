@@ -1,6 +1,8 @@
 import subprocess
 
 
+subprocess.run(['systemctl', 'daemon-reload'])
+
 subprocess.run(['systemctl', 'disable', 'fridge_tgbot'])
 subprocess.run(['systemctl', 'disable', 'fridge_webviewer'])
 subprocess.run(['systemctl', 'disable', 'fridge_cron'])

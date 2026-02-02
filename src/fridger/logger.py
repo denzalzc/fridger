@@ -22,16 +22,20 @@ class FridgeLogger:
     def info(self, text):
         with open(f"{LOGS_DIR}/{self.filename}", 'a') as file:
             file.write(f"[INFO] [{datetime.now().strftime("%d/%m/%Y, %H:%M:%S")}]: {text}\n")
+            print(f"[INFO] [{datetime.now().strftime("%d/%m/%Y, %H:%M:%S")}]: {text}\n")
 
     def warn(self, text):
         with open(f"{LOGS_DIR}/{self.filename}", 'a') as file:
             file.write(f"[WARN] [{datetime.now().strftime("%d/%m/%Y, %H:%M:%S")}]: {text}\n")
+            print(f"[WARN] [{datetime.now().strftime("%d/%m/%Y, %H:%M:%S")}]: {text}\n")
 
     def fatal(self, text):
         with open(f"{LOGS_DIR}/{self.filename}", 'a') as file:
             file.write(f"[FATAL] [{datetime.now().strftime("%d/%m/%Y, %H:%M:%S")}]: {text}\n")
+            print(f"[FATAL] [{datetime.now().strftime("%d/%m/%Y, %H:%M:%S")}]: {text}\n")
 
     def debug(self, text):
         with open(f"{LOGS_DIR}/{self.filename}", 'a') as file:
             file.write(f"[DEBUG] [{datetime.now().strftime("%d/%m/%Y, %H:%M:%S")}]: {text}\n")
+            print(f"[DEBUG] [{datetime.now().strftime("%d/%m/%Y, %H:%M:%S")}]: {text}\n")
 

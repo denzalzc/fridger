@@ -38,7 +38,7 @@ with open('/etc/systemd/system/fridge_webviewer.service', 'w') as file:
     file.write(web_viever)
 cron = gen_service(
     'fridge_cron.service',
-    'src/fridger/cron',
+    'src/fridger/cron_product',
     'venv/bin/python',
     'src/fridger/cron/main.py'
 )

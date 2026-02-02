@@ -44,13 +44,13 @@ with open('/etc/systemd/system/fridge_webviewer.service', 'w') as file:
 with open('/etc/systemd/system/fridge_cron.service', 'w') as file:
     file.write(cron)
 
-subprocess.run(['cp', '/home/apikey.txt', f'{os.path.abspath('src/fridger/tgbot')}/apikey.txt'], shell=True)
+subprocess.run(['cp', '/home/apikey.txt', f'{os.path.abspath('src/fridger/tgbot')}/apikey.txt'])
 
-subprocess.run(['systemctl', 'start', 'fridge_tgbot'], shell=True)
-subprocess.run(['systemctl', 'enable', 'fridge_tgbot'], shell=True)
+subprocess.run(['systemctl', 'start', 'fridge_tgbot'])
+subprocess.run(['systemctl', 'enable', 'fridge_tgbot'])
 
-subprocess.run(['systemctl', 'start', 'fridge_webviewer'], shell=True)
-subprocess.run(['systemctl', 'enable', 'fridge_webviewer'], shell=True)
+subprocess.run(['systemctl', 'start', 'fridge_webviewer'])
+subprocess.run(['systemctl', 'enable', 'fridge_webviewer'])
 
-subprocess.run(['systemctl', 'start', 'fridge_cron'], shell=True)
-subprocess.run(['systemctl', 'enable', 'fridge_cron'], shell=True)
+subprocess.run(['systemctl', 'start', 'fridge_cron'])
+subprocess.run(['systemctl', 'enable', 'fridge_cron'])

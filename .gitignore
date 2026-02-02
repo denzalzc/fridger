@@ -22,6 +22,7 @@ src/fridger/tgbot/apikey.txt
 .env.development.local
 .env.test.local
 .env.production.local
+venv
 
 # Базы данных
 *.db

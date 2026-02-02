@@ -1,15 +1,370 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>My Smart Fridge</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .fridge {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            min-height: 500px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .fridge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background: linear-gradient(90deg, #4CAF50, #2196F3, #FF9800);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .product-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            border: 2px solid #e0e0e0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            border-color: #4CAF50;
+        }
+
+        .product-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .product-title::before {
+            content: '🍎';
+            font-size: 1.2rem;
+        }
+
+        .product-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .amount {
+            background: #2196F3;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .date {
+            background: #FF9800;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .status-indicator {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #4CAF50;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-state h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2196F3;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-card {
+                padding: 20px;
+            }
+
+            .stats {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .stat-item {
+                min-width: 100%;
+            }
+
+            .fridge {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 1.7rem;
+            }
+
+            .product-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .amount,
+            .date {
+                text-align: center;
+                width: 100%;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <ul>
-        {% for p in products %}
-        <li>{{ p.title }} {{ p.amount }} {{ p.best_before_date }}</li>
-        {% endfor %}
-    </ul>
+    <div class="container">
+        <div class="header">
+            <h1>🧊 Smart Fridge</h1>
+            <p>Keep track of your food items and expiration dates</p>
+        </div>
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-value" id="totalProducts">0</div>
+                <div class="stat-label">Total Items</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="expiringSoon">0</div>
+                <div class="stat-label">Expiring Soon</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="totalAmount">0</div>
+                <div class="stat-label">Total Quantity</div>
+            </div>
+        </div>
+
+        <div class="fridge">
+            {% if products %}
+            <div class="products-grid" id="productsContainer">
+                {% for p in products %}
+                <div class="product-card" data-date="{{ p.best_before_date }}">
+                    <div class="status-indicator"></div>
+                    <div class="product-title">{{ p.title }}</div>
+                    <div class="product-info">
+                        <div class="amount">Quantity: {{ p.amount }}</div>
+                        <div class="date">Expires: {{ p.best_before_date }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <h3>🧊 Fridge is Empty</h3>
+                <p>Add some food items to get started!</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const products = document.querySelectorAll('.product-card');
+            const totalProducts = document.getElementById('totalProducts');
+            const expiringSoon = document.getElementById('expiringSoon');
+            const totalAmount = document.getElementById('totalAmount');
+
+            let totalItems = 0;
+            let expiringCount = 0;
+            let sumAmount = 0;
+
+            products.forEach(product => {
+                totalItems++;
+
+                const amountText = product.querySelector('.amount').textContent;
+                const amount = parseInt(amountText.match(/\d+/)[0]) || 0;
+                sumAmount += amount;
+
+                const dateText = product.querySelector('.date').textContent;
+                const dateMatch = dateText.match(/\d{4}-\d{2}-\d{2}/);
+
+                if (dateMatch) {
+                    const expDate = new Date(dateMatch[0]);
+                    const today = new Date();
+                    const diffTime = expDate - today;
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                    const indicator = product.querySelector('.status-indicator');
+
+                    if (diffDays <= 3) {
+                        indicator.style.background = '#f44336';
+                        expiringCount++;
+                    } else if (diffDays <= 7) {
+                        indicator.style.background = '#ff9800';
+                    } else {
+                        indicator.style.background = '#4CAF50';
+                    }
+
+                    if (diffDays < 0) {
+                        product.style.opacity = '0.7';
+                        product.style.borderColor = '#f44336';
+                        indicator.style.background = '#9e9e9e';
+                    }
+                }
+            });
+
+            totalProducts.textContent = totalItems;
+            expiringSoon.textContent = expiringCount;
+            totalAmount.textContent = sumAmount;
+
+            const fridge = document.querySelector('.fridge');
+            if (products.length > 0) {
+                fridge.style.background = 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)';
+            }
+
+            products.forEach(product => {
+                product.addEventListener('click', function () {
+                    this.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 200);
+                });
+            });
+
+            setInterval(() => {
+                document.querySelectorAll('.product-card').forEach(product => {
+                    const dateText = product.querySelector('.date').textContent;
+                    const dateMatch = dateText.match(/\d{4}-\d{2}-\d{2}/);
+
+                    if (dateMatch) {
+                        const expDate = new Date(dateMatch[0]);
+                        const today = new Date();
+                        const diffTime = expDate - today;
+                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                        if (diffDays < 0 && !product.classList.contains('expired')) {
+                            product.classList.add('expired');
+                            product.querySelector('.date').style.background = '#9e9e9e';
+                            product.querySelector('.date').textContent = 'Expired';
+                        }
+                    }
+                });
+            }, 60000);
+        });
+    </script>
 </body>
+
 </html>

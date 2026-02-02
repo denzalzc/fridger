@@ -84,7 +84,7 @@ def check_products():
     db.close()
 
 def main():
-    schedule.every().day.at("12:10").do(check_products)
+    schedule.every().day.at("11:55").do(check_products)
     running_logger.info('Cron is ran.')
 
     while True:
